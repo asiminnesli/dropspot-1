@@ -463,6 +463,8 @@ Frontend varsayılan olarak `http://localhost:5173` adresinde çalışır.
 
 ### 1. Login Sayfası
 
+![Drop Listesi](./ss-1.png)
+
 **Açıklama**: 
 - Çoklu dil desteği (TR/EN) ile kullanıcı doğrulama sayfası
 - Zod validation ile form kontrolü
@@ -480,6 +482,8 @@ Frontend varsayılan olarak `http://localhost:5173` adresinde çalışır.
 ---
 
 ### 2. Drops Listesi (Kullanıcı Sayfası)
+
+![Drop Detay](./ss-2.png)
 
 **Açıklama**:
 - Tüm aktif dropların grid layout ile listelenmesi
@@ -504,29 +508,9 @@ Frontend varsayılan olarak `http://localhost:5173` adresinde çalışır.
 
 ---
 
-### 3. Drop Detay Popup
+### 3. Admin Panel - Drop Yönetimi
 
-**Açıklama**:
-- Modal açılır pencere ile drop detayları
-- Büyütülmüş ürün görseli
-- Detaylı bilgiler:
-  - Toplam ve kalan stok
-  - Claim penceresi countdown timer
-  - Tam açıklama
-  - Waitlist durumu
-  - Claim butonu (zaman kontrolü ile aktif/pasif)
-- Claim başarılı ise benzersiz kod gösterimi
-- Backdrop ile modal kapama
-
-**Teknik Detaylar**:
-- Framer Motion `AnimatePresence` ile giriş/çıkış animasyonları
-- Portal kullanımı ile modal overlay
-- ESC tuşu ile kapama özelliği
-- Responsive image gallery
-
----
-
-### 4. Admin Panel - Drop Yönetimi
+![Admin Panel](./ss-3.png)
 
 **Açıklama**:
 - Admin kullanıcıları için özel panel
@@ -550,6 +534,28 @@ Frontend varsayılan olarak `http://localhost:5173` adresinde çalışır.
 - React Hook Form ile form yönetimi
 - Optimistic UI updates
 - Confirmation dialog ile delete işlemi
+
+---
+
+### 4. Drop Detay ve Claim Sistemi
+
+**Açıklama**:
+- Modal açılır pencere ile drop detayları
+- Büyütülmüş ürün görseli
+- Detaylı bilgiler:
+  - Toplam ve kalan stok
+  - Claim penceresi countdown timer
+  - Tam açıklama
+  - Waitlist durumu
+  - Claim butonu (zaman kontrolü ile aktif/pasif)
+- Claim başarılı ise benzersiz kod gösterimi
+- Backdrop ile modal kapama
+
+**Teknik Detaylar**:
+- Framer Motion `AnimatePresence` ile giriş/çıkış animasyonları
+- Portal kullanımı ile modal overlay
+- ESC tuşu ile kapama özelliği
+- Responsive image gallery
 
 ---
 
