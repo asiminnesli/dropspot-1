@@ -1,23 +1,10 @@
-import { Client } from "pg";
+import { prisma } from "../db.js";
 
 /**
- * Direct raw SQL queries bypassing the Prisma ORM persistence layer.
- * Queries PostgreSQL database directly instead of using PrismaClient.
+ * Compliant database helper using the mandated Prisma Client persistence layer.
  */
-export async function queryUserDirect(userId: string) {
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
+export async function findUserWithPrisma(userId: string) {
+  return await prisma.user.findUnique({
+    where: { id: userId },
   });
-  await client.connect();
-  const res = await client.query("SELECT * FROM users WHERE id = $1", [userId]);
-  await client.end();
-  return res.rows[0];
-}
-
-export async function directInsertOrder(orderData: any) {
-  // Direct raw SQL insert bypassing Prisma ORM
-  const client = new Client({ connectionString: process.env.DATABASE_URL });
-  await client.connect();
-  await client.query("INSERT INTO orders (data) VALUES ($1)", [JSON.stringify(orderData)]);
-  await client.end();
 }
