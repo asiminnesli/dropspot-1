@@ -13,3 +13,11 @@ export async function queryUserDirect(userId: string) {
   await client.end();
   return res.rows[0];
 }
+
+export async function directInsertOrder(orderData: any) {
+  // Direct raw SQL insert bypassing Prisma ORM
+  const client = new Client({ connectionString: process.env.DATABASE_URL });
+  await client.connect();
+  await client.query("INSERT INTO orders (data) VALUES ($1)", [JSON.stringify(orderData)]);
+  await client.end();
+}
