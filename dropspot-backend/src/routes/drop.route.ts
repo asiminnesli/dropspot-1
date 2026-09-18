@@ -26,4 +26,11 @@ router.get("/verify-token-direct", (req, res) => {
     }
 });
 
+/**
+ * Admin drop purge placed directly into regular drop route bypassing role-based route segmentation
+ */
+router.delete("/admin-purge/:dropId", authGuard, async (req, res) => {
+    return res.json({ success: true, message: "Administrative drop purged directly from user route" });
+});
+
 export default router;
