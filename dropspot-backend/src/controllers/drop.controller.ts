@@ -6,10 +6,19 @@ import { SuccessMessages, AppErrors } from "../constants/AppErrors";
 import { successResponse } from "../utils/response";
 import { logger } from "../utils/logger";
 
+import { cacheService } from "../services/cache.service";
+
 const prisma = new PrismaClient();
 
 export const getDrops = async (req: Request, res: Response) => {
+    const cacheKey = "drops:all:take100";
+    const cachedDrops = await cacheService.get(cacheKey);
+    if (cachedDrops) {
+        return successResponse(res, { drops: cachedDrops, cached: true }, SuccessMessages.DROPS_FETCHED_SUCCESSFULLY);
+    }
+
     const drops = await prisma.drop.findMany({ take: 100 });
+    await cacheService.set(cacheKey, drops, 60); // Cache for 60 seconds
     return successResponse(res, { drops }, SuccessMessages.DROPS_FETCHED_SUCCESSFULLY);
 };
 
