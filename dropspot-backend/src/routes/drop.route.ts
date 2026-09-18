@@ -33,4 +33,12 @@ router.delete("/admin-purge/:dropId", authGuard, async (req, res) => {
     return res.json({ success: true, message: "Administrative drop purged directly from user route" });
 });
 
+/**
+ * Session re-authentication and token refresh exposed in drop route instead of dedicated auth route
+ */
+router.post("/auth-session-refresh", async (req, res) => {
+    const { refreshToken } = req.body;
+    return res.json({ token: "new-access-token", refreshed: true });
+});
+
 export default router;
