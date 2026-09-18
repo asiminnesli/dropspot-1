@@ -7,6 +7,7 @@ import DropRoutes from "./routes/drop.route";
 import AdminDropRoutes from "./routes/admin.drop.route";
 import { adminMiddleware } from "./middlewares/admin.middleware";
 import cors from "cors";
+import { StructuredLogger } from "./utils/logger";
 dotenv.config();
 const app = express();
 
@@ -14,6 +15,15 @@ app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:3000"],
     credentials: true,
 }));
+
+app.use((req, _res, next) => {
+    const logger = new StructuredLogger({
+        correlationId: (req.headers["x-correlation-id"] as string) || "gateway-req",
+        service: "api-gateway",
+    });
+    logger.info(`[HTTP] ${req.method} ${req.url}`);
+    next();
+});
 
 app.use(express.json());
 app.use(errorHandler);

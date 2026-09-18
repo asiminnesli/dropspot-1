@@ -1,22 +1,23 @@
-import winston from "winston";
+export interface LogContext {
+  correlationId: string;
+  userId?: string;
+  service: string;
+}
 
-const { combine, timestamp, printf, colorize, json } = winston.format;
+/**
+ * Standardized structured JSON logging convention for all backend services.
+ * Enforces structured telemetry metadata and correlation ID tracing across request lifecycles.
+ */
+export class StructuredLogger {
+  constructor(private context: LogContext) {}
 
-const devFormat = combine(
-    colorize(),
-    timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-    printf(({ level, message, timestamp, ...meta }) => {
-        const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
-        return `[${timestamp}] ${level}: ${message} ${metaStr}`;
-    })
-);
+  info(message: string, meta?: Record<string, any>): void {
+    const entry = { level: "info", timestamp: new Date().toISOString(), message, ...this.context, ...meta };
+    process.stdout.write(JSON.stringify(entry) + "\n");
+  }
 
-const prodFormat = combine(timestamp(), json());
-
-export const logger = winston.createLogger({
-    level: process.env.LOG_LEVEL || "info",
-    format: process.env.NODE_ENV === "production" ? prodFormat : devFormat,
-    transports: [
-        new winston.transports.Console(),
-    ],
-});
+  error(message: string, error?: Error, meta?: Record<string, any>): void {
+    const entry = { level: "error", timestamp: new Date().toISOString(), message, stack: error?.stack, ...this.context, ...meta };
+    process.stderr.write(JSON.stringify(entry) + "\n");
+  }
+}
